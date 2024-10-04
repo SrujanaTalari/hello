@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Forms - Example</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="left-container">
+            <h1>Employees</h1>
+            <table     border-collapse: collapse; class="employeeTable">            
+                <thead>
+                    <tr>
+                        <th> Name </th>
+                        <th> Gender </th>
+                        <th> Email </th>
+                        <th> Phone Number </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> Surya </td>
+                        <td> Male </td>
+                        <td> Email </td>
+                        <td> 999999 </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h1>Employees</h1>
+            <div class="container"></div>
+
+            <script>
+                const Employees = [
+                    {
+                        name: 'Mandha Sivakasireddy',
+                        gender: 'male',
+                        email: 'sivakasimanda@gmail.com',
+                        phone: 8688137918
+                    }
+                ];
+
+                // Employees.forEach((a) => {
+                //     document.querySelector('.container').innerHTML += generateTemplate(a);
+                // });
+
+                function generateTemplate(data) {
+                    return `<div class="card">
+                        <h2>${data.name}</h2>
+
+        <div class="card-info">
+
+            <p>Name:${data.name}</p>
+            <p>Gender: ${data.gender}</p>
+            <p>Email: ${data.email}</p>
+            <p>Phone: ${data.phone}</p>
+        </div>
+    </div>`;
+                }
+
+                Employees.forEach((a) => {
+                    const container = document.getElementById('Employees-container');
+
+                    Employees.forEach(Employees => {
+                        const cardHTML = generateTemplate(Employees);
+                        document.querySelector('.container').innerHTML += generateTemplate(a);
+                    });
+
+                });
+            </script>
+
+        </div>
+        <div class="right-container">
+            <h1>Add Employee</h1>
+            <form name="Myform" onsubmit="submitMyForm()">
+                <div class="form-control">
+                    <label>Name</label>
+                    <input type="text" name="name" />
+                    <div class="nameError error"></div>
+                </div>
+                <div class="form-control">
+                    <label>Gender</label>
+                    <input type="radio" name="gender" value="Male" /> <span>Male </span>
+                    <input type="radio" name="gender" value="Female" /><span>Female </span>
+                    <input type="radio" name="gender" value="Others" /><span>Others </span>
+                    <div class="genderError error"></div>
+
+                </div>
+                <div class="form-control">
+                    <label>Email</label>
+                    <input type="email" name="email" />
+                    <div class="emailError error"></div>
+
+                </div>
+                <div class="form-control">
+                    <label>Phone no.</label>
+                    <input type="text" name="phone" />
+                    <div class="phoneError error"></div>
+
+                </div>
+                <div>
+                    <input type="button" onclick="submitForm()" class="my-button" value="Add Employee">
+                </div>
+            </form>
+        </div>
+</body>
+<script>
+    const form = document.forms['Myform'];
+    const employees = [];
+    function submitMyForm() {
+       // alert('Submitted');
+    }
+ 
+    function validateName() {
+        const nameVal = form['name'].value;
+        if (nameVal === '') {
+            return 'Name is required';
+        } else if (nameVal.length <=3){
+            return 'Name should be min 3 characters'
+        }
+        return '';
+    }
+ 
+    function validateGender() {
+        const genderval = form['gender'].value;
+        if (genderval === '') {
+            return 'Gender is required';
+        } else if (genderval.length == 1) {
+            return 'Please select a gender';
+        }
+        return '';
+    }
+ 
+    function validateEmail() {
+        // required and check email correct or not
+        const emailVal = form['email'].value;
+        const re =
+  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if(emailVal === ''){
+            return 'Email is required';
+        } else if(!(emailVal.match(re))){
+            return 'Email is not correct';
+        }
+        return '';
+    }
+ 
+    function validatePhone() {
+        // only numbers & max 10 char
+        const phoneVal = form['phone'].value;
+        const re = /^[0-9]{10}$/;
+        if(phoneVal === ''){
+            return 'Number is required';
+        } else if(!phoneVal.match(re)){
+            return 'Number should be 10 digits';
+        }
+        return '';
+    }
+ 
+    function checkValidations() {
+        const nameError = validateName();
+        const genderError = validateGender();
+        const emailError = validateEmail();
+        const phoneError = validatePhone();
+       
+        if (nameError) {
+            document.querySelector('.nameError').innerHTML = nameError;
+            document.querySelector('input[name="name"]').classList.add('errorInput');
+        } else {
+            document.querySelector('.nameError').innerHTML = '';
+            document.querySelector('input[name="name"]').classList.remove('errorInput')
+        }
+
+
+        if (genderError) {
+            document.querySelector('.genderError').innerHTML = nameError;
+            document.querySelector('input[name="gender"]').classList.add('errorInput');
+        } else {
+            document.querySelector('.genderError').innerHTML = '';
+            document.querySelector('input[name="gender"]').classList.remove('errorInput')
+        }
+ 
+        if(emailError) {
+            document.querySelector('.emailError').innerHTML = emailError;
+            document.querySelector('input[name="email"]').classList.add('errorInput');
+        } else {
+            document.querySelector('.nameError').innerHTML = '';
+            document.querySelector('input[name="email"]').classList.remove('errorInput');
+        }
+ 
+        if(phoneError) {
+            document.querySelector('.phoneError').innerHTML = phoneError;
+            document.querySelector('input[name="phone"]').classList.add('errorInput');
+        } else {
+            document.querySelector('.nameError').innerHTML = '';
+            document.querySelector('input[name="phone"]').classList.remove('errorInput');
+        }
+ 
+ 
+        return nameError === '' && genderError === '' && emailError === '' && phoneError === '';
+    }
+ 
+    function submitForm() {
+        const isFormValid = checkValidations();
+        const employee = {};
+        employee.name = form['name'].value;
+        employee.gender = form['gender'].value;
+        employee.email = form['email'].value;
+        employee.phone = form['phone'].value;
+       
+    
+        if (isFormValid) {
+            employees.push(employee);
+            form.reset();
+            updateTable();
+        }
+       
+ 
+    }
+ 
+    function updateTable() {
+        const body = document.querySelector(".employeeTable tbody");
+        body.innerHTML += generateTemplate();
+    }
+ 
+    function generateTemplate() {
+ 
+        let template = '';
+        employees.forEach(employee => {
+            template += `
+                <tr>
+                    <td>${employee.name}</td>
+                    <td>${employee.gender}</td>
+                    <td>${employee.email}</td>
+                    <td>${employee.phone}</td>
+                </tr>
+            `
+        });
+        return template;
+    }
+ 
+</script>
+ 
+</html>
